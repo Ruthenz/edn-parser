@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "description": "EDN parser and converter",
   "main": "src/index.js",
+  "module": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc"
+    "build": "rollup -c && tsc"
   },
   "repository": {
     "type": "git",
@@ -21,10 +22,15 @@
     "url": "https://github.com/Ruthenz/EDN/issues"
   },
   "homepage": "https://github.com/Ruthenz/EDN#readme",
-  "dependencies": {
-    "typescript": "^4.6.2"
-  },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
+  },
+  "devDependencies": {
+    "rollup": "^2.70.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "typescript": "^4.6.2"
+  },
+  "dependencies": {
+    "rollup-plugin-ts": "^2.0.5"
   }
 }

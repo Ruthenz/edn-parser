@@ -3,7 +3,7 @@ import stringifyEDN from './stringify';
 import parseEDN from './parse';
 import { EDNValue, stringifyOptions } from './utils';
 
-export default class EDN {
+class EDN {
   static parse(ednString: string) {
     return parseEDN(ednString);
   }
@@ -16,3 +16,6 @@ export default class EDN {
     return compressEDN(ednString);
   }
 }
+
+export default EDN;
+export { EDN };
