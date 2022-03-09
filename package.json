@@ -1,0 +1,26 @@
+{
+  "name": "edn",
+  "version": "0.1.0",
+  "description": "EDN parser and converter",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ruthenz/EDN.git"
+  },
+  "keywords": [
+    "EDN",
+    "clojure"
+  ],
+  "author": "Harel Gelberg",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ruthenz/EDN/issues"
+  },
+  "homepage": "https://github.com/Ruthenz/EDN#readme",
+  "dependencies": {
+    "typescript": "^4.6.2"
+  }
+}
