@@ -28,6 +28,8 @@ function stringify(edn, _a) {
         var lowerLevelIndentation = getIndentation(seperator, level - 1);
         var joinIndentation = spaces ? thisLevelIndentation : ' ';
         if (Array.isArray(edn)) {
+            if (!edn.length)
+                return '[]';
             var deeplyParsedArray = edn.filter(notUndefined).map(function (v) { return parse(v, level + 1); });
             return [
                 '[',

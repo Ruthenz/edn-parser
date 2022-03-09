@@ -2,7 +2,7 @@
   "name": "edn",
   "version": "0.1.0",
   "description": "EDN parser and converter",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

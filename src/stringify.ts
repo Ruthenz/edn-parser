@@ -28,6 +28,7 @@ export default function stringify(edn: EDNValue, {
     const joinIndentation = spaces ? thisLevelIndentation : ' ';
 
     if (Array.isArray(edn)) {
+      if (!edn.length) return '[]';
       const deeplyParsedArray = edn.filter(notUndefined).map((v) => parse(v, level+1));
       return [
         '[',

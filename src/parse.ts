@@ -225,14 +225,14 @@ export default function parse(str: string) {
   function expectNotEndOfInput(expected: string) {
     if (i === str.length) {
       printCodeSnippet(`Expecting a \`${expected}\` here`);
-      throw new Error("EDN_ERROR_0001 Unexpected End of Input");
+      throw new SyntaxError("EDN_ERROR_0001 Unexpected End of Input");
     }
   }
 
   function expectEndOfInput() {
     if (i < str.length) {
       printCodeSnippet("Expecting to end here");
-      throw new Error("EDN_ERROR_0002 Expected End of Input");
+      throw new SyntaxError("EDN_ERROR_0002 Expected End of Input");
     }
   }
 
@@ -243,7 +243,7 @@ For example:
 { "foo" "bar" }
 { :foo "bar" }
   ^^^^^`);
-    throw new Error("EDN_ERROR_0003 Expecting EDN Key");
+    throw new SyntaxError("EDN_ERROR_0003 Expecting EDN Key");
   }
 
 
@@ -254,7 +254,7 @@ For example:
 For example:
 ${numSoFar}5
 ${" ".repeat(numSoFar.length)}^`);
-      throw new Error("EDN_ERROR_0005 Expecting a digit");
+      throw new SyntaxError("EDN_ERROR_0005 Expecting a digit");
     }
   }
 
@@ -265,7 +265,7 @@ For example:
 "${strSoFar}\\n"
 ${" ".repeat(strSoFar.length + 1)}^^
 List of escape characters are: \\", \\\\, \\/, \\b, \\f, \\n, \\r, \\t, \\u`);
-    throw new Error("EDN_ERROR_0007 Expecting an escape character");
+    throw new SyntaxError("EDN_ERROR_0007 Expecting an escape character");
   }
 
   function expectEscapeUnicode(strSoFar: string) {
@@ -274,13 +274,13 @@ List of escape characters are: \\", \\\\, \\/, \\b, \\f, \\n, \\r, \\t, \\u`);
 For example:
 "${strSoFar}\\u0123
 ${" ".repeat(strSoFar.length + 1)}^^^^^^`);
-    throw new Error("EDN_ERROR_0008 Expecting an escape unicode");
+    throw new SyntaxError("EDN_ERROR_0008 Expecting an escape unicode");
   }
 
   // function expectCharacter(expected: string) {
   //   if (str[i] !== expected) {
   //     printCodeSnippet(`Expecting a \`${expected}\` here`);
-  //     throw new Error("EDN_ERROR_0009 Unexpected token");
+  //     throw new SyntaxError("EDN_ERROR_0009 Unexpected token");
   //   }
   // }
 
