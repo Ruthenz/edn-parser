@@ -1,5 +1,5 @@
 {
-  "name": "edn",
+  "name": "edn-parser",
   "version": "0.1.0",
   "description": "EDN parser and converter",
   "main": "src/index.js",
