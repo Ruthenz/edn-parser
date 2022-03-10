@@ -1,12 +1,14 @@
 {
   "name": "edn-parser",
-  "version": "0.1.1",
+  "version": "0.1.8",
   "description": "EDN parser and converter",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "module": "dist/index.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rollup -c && tsc"
+    "build": "tsc && rollup -c"
   },
   "repository": {
     "type": "git",
@@ -28,9 +30,7 @@
   "devDependencies": {
     "rollup": "^2.70.0",
     "rollup-plugin-terser": "^7.0.2",
+    "rollup-plugin-ts": "^2.0.5",
     "typescript": "^4.6.2"
-  },
-  "dependencies": {
-    "rollup-plugin-ts": "^2.0.5"
   }
 }

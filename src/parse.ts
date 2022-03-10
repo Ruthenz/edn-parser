@@ -54,10 +54,10 @@ export default function parse(str: string) {
               i += 5;
             } else {
               i += 2;
-              expectEscapeUnicode(result);
+              expectEscapeUnicode();
             }
           } else {
-            expectEscapeCharacter(result);
+            expectEscapeCharacter();
           }
         } else {
           result += str[i];
@@ -75,7 +75,7 @@ export default function parse(str: string) {
     let fractionalBarPosition;
     if (str[i] === "-") {
       i++;
-      expectDigit(str.slice(start, i));
+      expectDigit();
     }
     if (str[i] === "0") {
       i++;
@@ -88,13 +88,13 @@ export default function parse(str: string) {
     if (str[i] === "/") { // take care of ratios
       fractionalBarPosition = i;
       i++;
-      expectDigit(str.slice(start, i));
+      expectDigit();
       while (str[i] >= "0" && str[i] <= "9") {
         i++;
       }
     } else if (str[i] === ".") {
       i++;
-      expectDigit(str.slice(start, i));
+      expectDigit();
       while (str[i] >= "0" && str[i] <= "9") {
         i++;
       }
@@ -104,7 +104,7 @@ export default function parse(str: string) {
         if (str[i] === "-" || str[i] === "+") {
           i++;
         }
-        expectDigit(str.slice(start, i));
+        expectDigit();
         while (str[i] >= "0" && str[i] <= "9") {
           i++;
         }
@@ -159,6 +159,7 @@ export default function parse(str: string) {
           skipWhitespaces();
         }
         const value = parseValue();
+        assert(value !== undefined, { action: expectObjectValue });
         result.push(value);
         initial = false;
       }
@@ -185,6 +186,7 @@ export default function parse(str: string) {
         assert(key !== undefined, { action: expectObjectKey });
         skipWhitespaces();
         const value = parseValue();
+        assert(value !== undefined, { action: expectObjectValue });
         result[key] = value;
         initial = false;
       }
@@ -222,77 +224,36 @@ export default function parse(str: string) {
   }
 
   // error handling
-  function expectNotEndOfInput(expected: string) {
+  function expectNotEndOfInput(str: string) {
     if (i === str.length) {
-      printCodeSnippet(`Expecting a \`${expected}\` here`);
-      throw new SyntaxError("EDN_ERROR_0001 Unexpected End of Input");
+      console.log(`Expected ${str}`);
+      throw new SyntaxError("EDN_ERROR_0001 Unexpected end of input");
     }
   }
 
   function expectEndOfInput() {
     if (i < str.length) {
-      printCodeSnippet("Expecting to end here");
-      throw new SyntaxError("EDN_ERROR_0002 Expected End of Input");
+      throw new SyntaxError("EDN_ERROR_0002 Expected end of input");
     }
   }
 
   function expectObjectKey(): void {
-    printCodeSnippet(`Expecting object key here
-
-For example:
-{ "foo" "bar" }
-{ :foo "bar" }
-  ^^^^^`);
-    throw new SyntaxError("EDN_ERROR_0003 Expecting EDN Key");
+    throw new SyntaxError("EDN_ERROR_0003 Expecting key");
   }
 
-
-  function expectDigit(numSoFar: string) {
-    if (!(str[i] >= "0" && str[i] <= "9")) {
-      printCodeSnippet(`EDN_ERROR_0004 Expecting a digit here
-
-For example:
-${numSoFar}5
-${" ".repeat(numSoFar.length)}^`);
-      throw new SyntaxError("EDN_ERROR_0005 Expecting a digit");
-    }
+  function expectObjectValue(): void {
+    throw new SyntaxError("EDN_ERROR_0004 Expecting value");
   }
 
-  function expectEscapeCharacter(strSoFar: string) {
-    printCodeSnippet(`EDN_ERROR_0006 Expecting escape character
-
-For example:
-"${strSoFar}\\n"
-${" ".repeat(strSoFar.length + 1)}^^
-List of escape characters are: \\", \\\\, \\/, \\b, \\f, \\n, \\r, \\t, \\u`);
-    throw new SyntaxError("EDN_ERROR_0007 Expecting an escape character");
+  function expectDigit() {
+    throw new SyntaxError("EDN_ERROR_0005 Expecting a digit");
   }
 
-  function expectEscapeUnicode(strSoFar: string) {
-    printCodeSnippet(`Expect escape unicode
-
-For example:
-"${strSoFar}\\u0123
-${" ".repeat(strSoFar.length + 1)}^^^^^^`);
-    throw new SyntaxError("EDN_ERROR_0008 Expecting an escape unicode");
+  function expectEscapeCharacter() {
+    throw new SyntaxError("EDN_ERROR_0006 Expecting an escape character");
   }
 
-  // function expectCharacter(expected: string) {
-  //   if (str[i] !== expected) {
-  //     printCodeSnippet(`Expecting a \`${expected}\` here`);
-  //     throw new SyntaxError("EDN_ERROR_0009 Unexpected token");
-  //   }
-  // }
-
-  function printCodeSnippet(message: string) {
-    const from = Math.max(0, i - 10);
-    const trimmed = from > 0;
-    const padding = (trimmed ? 4 : 0) + (i - from);
-    const snippet = [
-      (trimmed ? "... " : "") + str.slice(from, i + 1),
-      " ".repeat(padding) + "^",
-      " ".repeat(padding) + message
-    ].join("\n");
-    console.log(snippet);
+  function expectEscapeUnicode() {
+    throw new SyntaxError("EDN_ERROR_0007 Expecting an escape unicode");
   }
 }
