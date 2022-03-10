@@ -211,6 +211,11 @@ export default function parse(str: string) {
     }
   }
 
+  function skipWhitespaces() {
+    const whiteSpaces = [' ', ',', '\n', '\t', '\r'];
+    while (whiteSpaces.includes(str[i])) i++;
+  }
+
   function isHexadecimal(char: string) {
     return (
       (char >= "0" && char <= "9") ||
@@ -218,15 +223,10 @@ export default function parse(str: string) {
     );
   }
 
-  function skipWhitespaces() {
-    const whiteSpaces = [' ', ',', '\n', '\t', '\r'];
-    while (whiteSpaces.includes(str[i])) i++;
-  }
-
   // error handling
-  function expectNotEndOfInput(char: string) {
+  function expectNotEndOfInput(expected: string) {
     if (i === str.length) {
-      console.log(`Expected ${char}`);
+      console.log(`Expected ${expected}`);
       throw new SyntaxError("EDN_ERROR_0001 Unexpected end of input");
     }
   }
@@ -246,7 +246,9 @@ export default function parse(str: string) {
   }
 
   function expectDigit() {
-    throw new SyntaxError("EDN_ERROR_0005 Expecting a digit");
+    if (!(str[i] >= "0" && str[i] <= "9")) {
+      throw new SyntaxError("EDN_ERROR_0005 Expecting a digit");
+    }
   }
 
   function expectEscapeCharacter() {
