@@ -224,9 +224,9 @@ export default function parse(str: string) {
   }
 
   // error handling
-  function expectNotEndOfInput(str: string) {
+  function expectNotEndOfInput(char: string) {
     if (i === str.length) {
-      console.log(`Expected ${str}`);
+      console.log(`Expected ${char}`);
       throw new SyntaxError("EDN_ERROR_0001 Unexpected end of input");
     }
   }
